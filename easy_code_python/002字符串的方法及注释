@@ -1,3 +1,4 @@
+一、
 https://fishc.com.cn/thread-38992-1-1.html
 capitalize()
 把字符串的第一个字符改为大写
@@ -23,12 +24,24 @@ isalpha()
 如果字符串至少有一个字符并且所有字符都是字母则返回 True，否则返回 False。
 isdecimal()
 如果字符串只包含十进制数字则返回 True，否则返回 False。
+isdecimal()
+True: Unicode数字，，全角数字（双字节）
+False: 罗马数字，汉字数字
+Error: byte数字（单字节）
 isdigit()
 如果字符串只包含数字则返回 True，否则返回 False。
+isdigit()
+True: Unicode数字，byte数字（单字节），全角数字（双字节），罗马数字
+False: 汉字数字
+Error: 无
 islower()
 如果字符串中至少包含一个区分大小写的字符，并且这些字符都是小写，则返回 True，否则返回 False。
 isnumeric()
 如果字符串中只包含数字字符，则返回 True，否则返回 False。
+isnumeric()
+True: Unicode数字，全角数字（双字节），罗马数字，汉字数字
+False: 无
+Error: byte数字（单字节）
 isspace()
 如果字符串中只包含空格，则返回 True，否则返回 False。
 istitle()
@@ -75,3 +88,19 @@ upper()
 转换字符串中的所有小写字符为大写。
 zfill(width)
 返回长度为 width 的字符串，原字符串右对齐，前边用 0 填充。
+
+
+二、
+定义一个跨越多行的字符串的方法：
+法1
+str1='''hello
+my name is
+maxwell7'''
+法2
+str2='hello\
+my name is\
+maxwell7'
+法3
+str3=('hello'
+'my name is'
+'maxwell7')
