@@ -1,0 +1,45 @@
+# address list
+def display():
+    print('|---欢迎进入通讯录程序---|')
+    print('|---1：查询联系人资料 ---|')
+    print('|---2：插入新的联系人 ---|')
+    print('|---3：删除已有联系人 ---|')
+    print('|---4：退出通讯录程序 ---|')
+    return
+address={}
+while(True):
+    display()
+    n=input('请输入相关指令代码：')
+    if not 52>=ord(n)>=49:
+        print('input error!please resume load:')
+    else:
+        n=int(n)
+    if n==2:
+        name=input('请输入联系人姓名：')
+        if (name in address):
+            print('您输入的姓名在通讯录中已存在-->>',end='')
+            print(name+':'+address[name])
+            cmd=input('是否修改用户资料（YES/NO）：')
+            if(cmd=='YES'):
+                number=input('请输入用户联系电话：')
+                address[name]=number
+                continue
+            elif(cmd=='NO'):
+                continue
+            else:
+                print('input error!')
+                continue
+        number=input('请输入用户联系电话：')
+        address[name]=number
+    elif n==1:
+        name=input('请输入联系人姓名：')
+        if (name in address):
+            print(name+':'+address[name])
+        else:
+            print('没有该联系人记录')
+    elif n==3:
+        name=input('请输入要删除联系人姓名：')
+        del address[name]
+    elif n==4:
+        print('|---感谢使用通讯录程序---')
+        break
