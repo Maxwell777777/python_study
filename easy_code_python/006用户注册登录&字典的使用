@@ -1,0 +1,41 @@
+# log_in
+def display():
+    print('|---welcome log_in---|')
+    print('|--- 新建用户：N/n ---|')
+    print('|--- 登录账号：E/e ---|')
+    print('|--- 退出程序：Q/q ---|')
+    return
+user={}
+while True:
+    display()
+    n=input('请输入指令代码:')
+    if (n=='N' or n=='n'):
+        name=input('please input your name:')
+        while(name in user):
+            name=input('the name is already existed,please resume load:')
+        password=input('please input your password:')
+        user[name]=password
+        print('register successfully!You can sign up now!^_^')
+    elif (n=='E' or n=='e'):
+        count=2
+        name=input('please input your user name:')
+        while (not name in user):
+            name=input('this user name is illegal,please resume load:')
+        password=input('please input your password:')
+        if (password==user[name]):
+            print('welcome back!')
+        else:
+            while(count):
+                if count>1:
+                    password=input('your password is wrong!You have %d times left'% count)
+                else:
+                    password=input('your password is wrong!You have %d time left'% count)
+                if (password==user[name]):
+                    print('welcome back!')
+                    break
+                count-=1
+    elif (n=='Q' or n=='q'):
+        print('see you next time!^_^')
+        break
+    else:
+        print('error input!')
