@@ -1,0 +1,128 @@
+###1.接收用户输入，并保存为新文件
+def file_write(file_name):
+    f=open(file_name,'w')
+    print('请输入内容[单独输入\':w\'保存退出]:')
+
+    while True:
+        write_some=input()
+        if write_some !=':w':
+            f.write('%s\n'%write_some)
+        else:
+            break
+    f.close()
+file_name=input('please input file name:')
+file_write(file_name)
+--------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+###2.比较用户输入的两个文件，输出第几行不一样
+def file_compare(file1,file2):
+    f1=open(file1)
+    f2=open(file2)
+    count=0 #统计行数
+    differ=[] #统计不一样的数量
+    
+    for line1 in f1:
+        line2=f2.readline()
+        count+=1
+        if line1!=line2:
+            differ.append(count)
+    
+    f1.close()
+    f2.close()
+    return differ
+file1=input('请输入第一个文件名：')
+file2=input('请输入另一个文件名：')
+
+differ=file_compare(file1,file2)
+if len(differ)==0:
+    print('they are same!')
+else:
+    print('两个文件共有%d处不同:'%len(differ))
+    for each in differ:
+        print('第%d行不一样'%each)
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+###用户输入文件名和行数，将该文件的前N行打印出来
+def file_view(file_name,line_num):
+    print('\n文件%s的前%s的内容如下：\n'%(file_name,line_num))
+    f=open(file_name)
+    for i in range(int(line_num)):
+        print(f.readline(),end='')
+    f.close()
+    
+file_name=input('please input your file name；')
+line_num=input('please input N:')
+file_view(file_name,line_num)
+-----------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------
+###上程序扩展，用户可随意输入需要显示的行数
+def file_view2(file_name,start,end):
+    if (len(start)!=0)&(len(end)!=0):
+        print('\n文件%s从第%s行到第%s行的内容如下：\n'%(file_name,start,end))
+        f=open(file_name)
+        for i in range(int(start)-1):
+            f.readline()
+        for i in range(int(start),int(end)+1):
+            print(f.readline(),end='')
+        f.close()
+    elif (len(start)==0)&(len(end)!=0):
+        print('\n文件%s从开始到第%s行的内容如下：\n'%(file_name,end))
+        f=open(file_name)
+        for i in range(int(end)):
+            print(f.readline(),end='')
+        f.close()
+    elif (len(start)!=0)&(len(end)==0):
+        print('\n文件%s从第%s行到末尾的内容如下：\n'%(file_name,start))
+        f=open(file_name)
+        for i in range(int(start)-1):
+            f.readline()
+        print(f.read())
+        f.close()
+    else:
+        print('\n文件%s的全文内容如下：\n'%file_name)
+        f=open(file_name)
+        print(f.read())
+        f.close()
+        
+file_name=input('please input your file name:')
+st_end=input('请输入需要显示的行数【格式如13:21或：21或21：或：】：')
+(st,end)=st_end.split(':')
+file_view2(file_name,st,end)
+---------------------------------------------------------------------------------
+
+
+
+
+---------------------------------------------------------------------------------
+###全部替换功能
+## replace
+def replace(file_name,old,new):
+    f=open(file_name)
+    content=[]
+    count=0
+    
+    for eachline in f:
+        if old in eachline:
+            count=eachline.count(old)
+            eachline=eachline.replace(old,new)
+        content.append(eachline)
+        
+    decide=input('\n文件%s中共有%s个【%s】\n您确定把所有的【%s】替换为【%s】吗？\n【YES/NO】：'\
+                 %(file_name,count,old,old,new))
+    if decide in ['YES','Yes','yes']:
+        f_write=open(file_name,'w')
+        f_write.writelines(content)
+        f_write.close()
+    f.close()
+
+file_name=input('please input your file name:')
+old=input('please input old string:')
+new=input('please input new string:')
+replace(file_name,old,new)
