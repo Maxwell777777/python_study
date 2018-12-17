@@ -1,1 +1,105 @@
 https://fishc.com.cn/thread-45512-1-2.html
+###1.统计当前目录下每个文件类型的文件数
+import os
+
+all_files=os.listdir(os.curdir)# 当前目录用os.curdir更精准
+type_dict=dict()
+# os.getcwd()
+
+for each_file in all_files:
+    if os.path.isdir(each_file):
+        type_dict.setdefault('文件夹',0)
+        type_dict['文件夹']+=1
+    else:
+        ext=os.path.splitext(each_file)[1]
+        type_dict.setdefault(ext,0)
+        type_dict[ext]+=1
+        
+for each_type in type_dict.keys():
+    print('该文件夹下共有类型为【%s】的文件%d个'%(each_type,type_dict[each_type]))
+--------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------
+###2.计算当前文件夹下所有文件的大小
+import os
+
+all_files=os.listdir(os.curdir)
+file_dict=dict()
+
+for each_file in all_files:
+    if os.path.isfile(each_file):
+        file_size=os.path.getsize(each_file)
+        file_dict[each_file]=file_size
+        
+for each in file_dict.items():
+    print('%s【%dBytes】'%(each[0],each[1]))
+---------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------
+###3.用户输入文件名以及开始搜索的路径，搜索该文件是否存在。如遇到文件夹，则进入文件夹继续搜索
+import os
+
+def search_file(start_dir,target):
+    os.chdir(start_dir)
+    
+    for each_file in os.listdir(os.curdir):
+        if each_file==target:
+            print(os.getcwd()+os.sep+each_file)
+            global n
+            n=1
+            continue
+        if os.path.isdir(each_file):
+            search_file(each_file,target)# 递归
+            os.chdir(os.pardir)# 返回上一级目录
+    print(os.getcwd())
+    print(start_dir)
+    print(n)
+    if (n==0):
+        print('no search!')
+            
+n=0            
+start_dir=input('请输入待查找的初始目录:')
+target=input('请输入需要查找的目标文件：')
+search_file(start_dir,target)
+-----------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------
+###4.用户输入开始搜索的路径，查找该路径下（包含子文件夹内）所有的视频格式文件（要求查找mp4，rmvb，avi的格式即可），
+并创建一个文件（vedio.txt）存放所有找到的文件的路径，程序实现如图：
+import os
+
+def rearch_file(start_dir,target):
+    os.chdir(start_dir)
+    
+    for each_file in os.listdir(os.curdir):
+        ext=os.path.splitext(each_file)[1]
+        if ext in target:
+            vedio_list.append(os.getcwd()+os.sep+each_file+os.linesep)
+            
+        if os.path.isdir(each_file):
+            search_file(each_file,target)
+            os.chdir(os.pardir)
+            
+start_dir=input('请输入待查找的初始目录：')
+program_dir=os.getcwd()
+
+target=['.mp4','.avi','.rmvb']
+vedio_list=[]
+search_file(start_dir,target)
+f=open(program_dir+os.sep+'vedioList.txt','w')
+f.writelines(vedio_list)
+f.close()
+--------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------
+###5.用户输入关键字，查找当前文件内（如果当前文件夹内包含文件夹，则进入文件夹继续搜索）
+所有含有该关键字的文本文件（.txt后缀），要求显示该文件所在的位置以及关键字在文件中的具体位置
+（第几行第几个字符）
