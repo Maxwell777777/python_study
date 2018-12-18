@@ -31,6 +31,26 @@ while(True):
                 continue
         number=input('请输入用户联系电话：')
         address[name]=number
+        
+        '''使用try可以提高效率
+        name=input('请输入联系人姓名：')
+        try:
+             print('您输入的姓名在通讯录中已存在-->>',end='')
+             print(name+':'+address[name])
+             cmd=input('是否修改用户资料（YES/NO）：')
+             if(cmd=='YES'):
+                 number=input('请输入用户联系电话：')
+                 address[name]=number
+                 continue
+             elif(cmd=='NO'):
+                 continue
+             else:
+                 print('input error!')
+                 continue
+         except KeyError:
+             number=input('请输入用户联系电话：')
+             address[name]=number
+         '''
     elif n==1:
         name=input('请输入联系人姓名：')
         if (name in address):
