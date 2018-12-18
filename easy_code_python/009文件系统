@@ -121,7 +121,7 @@ def pos_in_line(line,key):
     return pos
 
 def search_in_file(file_name,key):
-    f=open(file_name)
+    f=open(file_name,encoding='UTF-8')
     count=0# 记录行数
     key_dict=dict()
     
@@ -151,6 +151,8 @@ def search_files(key,detail):
             print('在文件【%s】中找到关键字【%s】'%(each_txt_file,key))
             if detail in ['YES','Yes','yes']:
                 print_pos(key_dict)
+        else:
+            print('no found!')
 
 key=input('请将该脚本放于待查找的文件夹内，请输入关键字：')
 detail=input('请问是否需要打印关键字【%s】在文件中的具体位置（YES/NO）：'%key)
