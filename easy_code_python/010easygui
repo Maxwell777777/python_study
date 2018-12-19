@@ -1,3 +1,161 @@
 https://fishc.com.cn/forum.php?mod=viewthread&tid=46069&extra=page%3D1%26filter%3Dtypeid%26typeid%3D403
 http://easygui.sourceforge.net/tutorial.html#default-arguments-for-easygui-functions
 
+###1.guessing game加上gui
+import random
+import easygui as g
+
+secret=random.randint(0,20)
+#print(secret)
+n=1
+number=g.integerbox(msg='please input a number,3 opportunities:', title=' ')
+
+while(n<4):
+    if (number==secret):
+        print('you are right!')
+        break
+    else:
+        if (number>secret):
+            if(n==3):
+                print("it's smaller")
+                n=n+1
+            else:
+                number=g.integerbox(msg='it\'s smaller', title=' ')
+                n=n+1
+        else:
+            if(n==3):
+                print("it's bigger")
+                n=n+1
+            else:
+                number=g.integerbox(msg='it\'s bigger', title=' ')
+                n=n+1
+if(n==4):
+    #print('you lose!')
+    g.msgbox('you lose!')
+else:
+    #print('nice job!')
+    g.msgbox('nice job!')
+-----------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------
+###2.注册信息
+import easygui as g
+
+msg = "Enter your personal information\n\n\
+【*真实姓名】为必填\n\n【*手机号码】为必填\n\n【*E-mail】为必填\n\n"
+title = "账号中心"
+fieldNames = ["*用户名","*真实姓名","固定电话","*手机电话","QQ","*E-mail"]
+fieldValues = []  # we start with blanks for the values
+fieldValues = g.multenterbox(msg,title, fieldNames)
+
+# make sure that none of the fields was left blank
+while 1:
+    if fieldValues == None: break
+    errmsg = ""
+    for i in range(len(fieldNames)):
+        option=fieldValues[i].strip()
+        if (fieldValues[i].strip() == "")&(option[0]=='*'):
+            errmsg = errmsg + ('"%s" is a required field.\n\n' % fieldNames[i])
+    if errmsg == "": break # no problems found
+    fieldValues = g.multenterbox(errmsg, title, fieldNames, fieldValues)
+print ("Reply was:", fieldValues)
+----------------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------------------------------
+###3.打开一个文件，并选择覆盖保存or不保存or另存为
+import easygui as g
+import os
+
+file_path=g.fileopenbox(default="*.txt",filetypes=["*.py"])
+# file_path=g.fileopenbox(filetypes=["*.txt",["*.py","*.ipynb"]])
+with open(file_path) as f:
+    title=os.path.basename(file_path)
+    msg='文件【%s】的内容如下：'%title
+    text=f.read()
+    text_after=g.textbox(msg,'',text)
+
+msg='检测到文件内容发生改变，请选择以下操作'
+title='Warning'
+choices=['覆盖保存','放弃保存','另存为']
+if text!=text_after[:-1]:
+    n=g.buttonbox(msg,title,choices)
+if n=='覆盖保存':
+    with open(file_path,'w') as old_file:
+        old_file.write(text_after[:-1])
+elif n=='放弃保存':
+    pass
+else:
+    new_path=g.filesavebox(default='*.txt')
+    if os.path.splitext(new_path)[1]!='.txt':
+        new_path+='.txt'
+    else:
+        pass
+    with open(new_path,'w') as new_file:
+        new_file.write(text_after[:-1])
+-------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------
+###4.代码量统计
+import easygui as g
+import os
+
+def show_result(start_dir):
+    lines=0
+    total=0
+    text=''
+    
+    for i in source_list:
+        lines=source_list[i]
+        total+=lines
+        text+="【%s】源文件%d个，源代码%d行\n"%(i,file_list[i],lines)
+    title='统计结果'
+    msg="您目前共累计编写了%d行代码，完成进度：%.2f%%\n离十万行代码还差%d行"%(total,total/100000,100000-total)
+    g.textbox(msg,title,text)
+
+def calc_code(file_name):
+    lines=0
+    with open(file_name) as f:
+        print('正在分析：%s...'%file_name)
+        try:
+            for each_line in f:
+                lines+=1
+        except UnicodeDecodeError:
+            pass# 不可避免遇到些格式不兼容文件，忽略
+    return lines
+
+def search_file(start_dir):
+    os.chdir(start_dir)
+    
+    for each_file in os.listdir(os.curdir):
+        ext=os.path.splitext(each_file)[1]
+        if ext in target:
+            lines=calc_code(each_file)
+            #统计文件数
+            try:
+                file_list[ext]+=1
+            except KeyError:
+                file_list[ext]=1
+            #统计源代码行数
+            try:
+                source_list[ext]+=lines
+            except KeyError:
+                source_list[ext]=lines
+        if os.path.isdir(each_file):
+            search_file(each_file)#递归调用
+            os.chdir(os.pardir)
+            
+target=['.c','.cpp','.py','.ipynb']
+file_list={}
+source_list={}
+
+g.msgbox("请打开您存放所有代码的文件夹...","统计代码量")
+path=g.diropenbox("请选择您的代码库")
+
+search_file(path)
+show_result(path)
