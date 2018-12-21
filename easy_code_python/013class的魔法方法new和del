@@ -1,0 +1,41 @@
+###1.给文件流进行包装，在确认删除时文件流自动关闭
+class FileObject:
+    def __init__(self,filename='test.txt'):
+        self.new_file=open(filename,'r+')# r+读写
+    def write(self,string):
+        self.new_file.write(string)
+    def __del__(self):
+        self.new_file.close()
+        del self.new_file
+        
+f=FileObject('test.txt')
+f.write('hello')
+del f
+--------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------
+###2.摄氏度到华氏度转变
+class C2F(float):
+    def __new__(cls,t=0.0):
+        return float.__new__(cls,t*1.8+32)
+print(C2F(32))
+--------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------
+###3.定义一个继承于int类型，并实现特殊功能：当传入的参数是字符串的时候，返回该字符串所有字符的ASCII码和
+class Nint(int):
+    def __new__(cls,arg=0):
+        if isinstance(arg,str):
+            total=0
+            for each in arg:
+                total+=ord(each)
+            arg=total
+        return int.__new__(cls,arg)
+print(Nint(123))
+print(Nint(1.5))
+print(Nint('A'))
+print(Nint('FishC'))
