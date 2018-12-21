@@ -1,0 +1,32 @@
+class Stack:
+    def __init__(self,start=[]):
+        self.stack=[]
+        for x in start:
+            self.push(x)
+            
+    def isEmpty(self):
+        if (len(self.stack)==0):
+            return False
+        else:
+            return True
+        
+    def push(self,n):
+        self.stack.append(n)
+        
+    def pop(self):
+        try:
+            return self.stack.pop()
+        except:
+            print('it\'s empty!')
+    
+    def top(self):
+        try:
+            return self.stack[-1]
+        except IndexError:
+            print('it\'s empty!')
+    
+    def bottom(self):
+        try:
+            return self.stack[0]
+        except IndexError:
+            print('it\'s empty!')
