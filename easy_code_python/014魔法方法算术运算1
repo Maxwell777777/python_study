@@ -1,0 +1,57 @@
+###1.两个字符相减，从A中去除所有B的子字符串
+class Nstr(str):
+    def __sub__(self,other):
+        return (self.replace(other,''))
+a=Nstr("i don't like qiqi")
+b=Nstr("don't")
+print(a-b)
+------------------------------------------------------------
+
+
+------------------------------------------------------------
+###2.字符串移位操作
+class Nstr(str):
+    def __lshift__(self,other):
+        return (self[other:]+self[:other])
+    def __rshift__(self,other):
+        l=len(self)
+        return (self[l-other:]+self[:1-other])
+a=Nstr('i love qiqi!')
+print(a<<3)
+print(a>>3)
+-------------------------------------------------------------
+
+
+-------------------------------------------------------------
+###3.字符串加减乘除（ASCII码之和）
+# class Nstr():
+#     def __init__(self,arg=''):
+#         if isinstance(arg,str):
+#             self.total=0
+#             for each in arg:
+#                 self.total+=ord(each)
+#         else:
+#             print('wrong!')
+#     def __add__(self,other):
+#         return self.total+other.total
+#     def __sub__(self,other):
+#         return self.total-other.total
+#     def __truediv__(self,other):
+#         return self.total/other.total
+#     def __floordiv__(self,other):
+#         return self.total//other.total
+    
+class Nstr(int):
+    def __new__(cls,arg=0):
+        if isinstance(arg,str):
+            total=0
+            for each in arg:
+                total+=ord(each)
+            arg=total
+        return int.__new__(cls,arg)
+a=Nstr('FishC')
+b=Nstr('love')
+print(a+b)
+print(a-b)
+print(a/b)
+print(a//b)
