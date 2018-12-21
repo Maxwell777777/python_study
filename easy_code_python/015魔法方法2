@@ -1,0 +1,35 @@
+###1.定义一个类，当实例化的时候，自动判断传入了多少个参数
+class C:
+    def __init__(self,*args):
+        if not args:
+            print('没有传入参数')
+        else:
+            print('传入了%d个参数，分别是：'%len(args),end='')
+            for each in args:
+                print(each,end=' ')
+c=C(1,2,3)
+---------------------------------------------------------------------
+
+
+---------------------------------------------------------------------
+###2.定义一个Word类继承自字符串，重写比较操作符，当两个Word类对象进行比较时，根据单词的长度进行比较大小
+（实例化时如果传入的是带空格的字符串，则取第一个空格前的单词作为参数）
+class Word(str):
+    def __new__(cls,word):
+        # 因为str是不可变类型，所以我们必须要用到__new__方法
+        if ' 'in word:
+            print('Value contains spaces.Truncating to first space.')
+            word=word[:word.index(' ')]
+        return str.__new__(cls,word)
+    
+    def __gt__(self,other):
+        return len(self)>len(other)
+    def __lt__(self,other):
+        return len(self)<len(other)
+    def __ge__(self,other):
+        return len(self)>=len(other)
+    def __le__(self,other):
+        return len(self)<=len(other)
+a=Word('asfd sjk')
+b=Word('xbvjkj')
+print(a<b)
